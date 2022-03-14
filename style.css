@@ -1,0 +1,68 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #333;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  font-size: 7vmin;
+}
+
+.grid {
+  /* --grid-size: 4;
+  --grid-gap: 2vmin;
+  --cell-size: 18vmin; */
+  --cell-radius: 1vmin;
+  background-color: #CCC;
+  display: grid;
+  grid-template-columns: repeat(var(--grid-size), var(--cell-size));
+  grid-template-rows: repeat(var(--grid-size), var(--cell-size));
+  gap: var(--grid-gap);
+  padding: var(--grid-gap);
+  border-radius: var(--cell-radius);
+  position: relative;
+}
+
+.cell, .tile {
+  background-color: #AAA;
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border-radius: var(--cell-radius);
+}
+
+.tile {
+  /* --x: 0;
+  --y: 0;
+  --background-lightness: 80%;
+  --color-lightness: 20%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  position: absolute;
+  left: calc((var(--cell-size) + var(--grid-gap)) * var(--x) + var(--grid-gap));
+  top: calc((var(--cell-size) + var(--grid-gap)) * var(--y) + var(--grid-gap));
+  transition: ease-in-out 150ms;
+  animation: animation-show 250ms;
+  background-color: hsl(200, 50%, var(--background-lightness));
+  color: hsl(200, 50%, var(--color-lightness));
+}
+
+.score {
+  font-size: 4vmin;
+  color: white;
+  width: 100%;
+  margin-bottom: 2vmin;
+}
+
+@keyframes animation-show {
+  0% {
+    opacity: 0.5;
+    transform: scale(0);
+  }
+}
