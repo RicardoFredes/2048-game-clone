@@ -51,20 +51,27 @@ function setupTouch() {
     endX: 0,
     endY: 0,
   };
-  addEventListener("touchstart", (event) => {
-    const [{ pageX, pageY }] = event.changedTouches;
-    touch.startX = pageX;
-    touch.startY = pageY;
-  }, { once: true });
-  addEventListener("touchend", (event) => {
-    if (event.path.findIndex(el => el.id === "game-board") < 0) {
-      return handleInput("", setupTouch);
-    }
-    const [{ pageX, pageY }] = event.changedTouches;
-    touch.endX = pageX;
-    touch.endY = pageY;
-    detectMovement(touch)
-  }, { once: true });
+
+  gameBoard.addEventListener(
+    "touchstart",
+    (event) => {
+      const [{ pageX, pageY }] = event.changedTouches;
+      touch.startX = pageX;
+      touch.startY = pageY;
+    },
+    { once: true }
+  );
+
+  gameBoard.addEventListener(
+    "touchend",
+    (event) => {
+      const [{ pageX, pageY }] = event.changedTouches;
+      touch.endX = pageX;
+      touch.endY = pageY;
+      detectMovement(touch);
+    },
+    { once: true }
+  );
 }
 
 function detectMovement({ startX, startY, endX, endY }) {
@@ -96,7 +103,9 @@ function handleInput(key, cb) {
 }
 
 function setupInput() {
-  addEventListener("keydown", (e) => handleInput(e.key, setupInput), { once: true });
+  addEventListener("keydown", (e) => handleInput(e.key, setupInput), {
+    once: true,
+  });
 }
 
 function hasAnyMove() {
