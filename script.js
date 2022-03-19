@@ -52,7 +52,7 @@ function setupTouch() {
     endY: 0,
   };
 
-  gameBoard.addEventListener(
+  addEventListener(
     "touchstart",
     (event) => {
       event.preventDefault();
@@ -63,11 +63,11 @@ function setupTouch() {
     { once: true }
   );
 
-  gameBoard.addEventListener("touchmove", (event) => {
-    event.preventDefault();
-  });
+  // addEventListener("touchmove", (event) => {
+  //   event.preventDefault();
+  // });
 
-  gameBoard.addEventListener(
+  addEventListener(
     "touchend",
     (event) => {
       event.preventDefault();
