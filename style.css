@@ -12,6 +12,7 @@ body {
   justify-content: center;
   font-family: sans-serif;
   font-size: 7vmin;
+  touch-action: none;
 }
 
 .grid {
