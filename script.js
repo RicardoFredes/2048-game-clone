@@ -82,7 +82,7 @@ function setupTouch() {
 
 function detectMovement({ startX, startY, endX, endY }) {
   let key = "";
-  const SENSIBILITY = 5;
+  const SENSIBILITY = 3;
   const deltaX = startX - endX;
   const deltaY = startY - endY;
   const isHorizontal = Math.abs(deltaX) > Math.abs(deltaY);
@@ -142,7 +142,7 @@ function updateGame(cells) {
   }
 }
 
-function createTile(gameBoard, cell, value = Math.random() > 0.2 ? 2 : 4) {
+function createTile(gameBoard, cell, value = Math.random() < 0.9 ? 2 : 4) {
   const element = document.createElement("div");
   element.classList.add("tile");
   gameBoard.append(element);
