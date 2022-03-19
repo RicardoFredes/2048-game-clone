@@ -33,6 +33,7 @@ function startGame() {
   generateRandomTile(gameBoard, cells);
 
   setupInput();
+  setupTouch();
 }
 
 function clearGame() {
@@ -43,8 +44,59 @@ function clearGame() {
   score.textContent = 0;
 }
 
+function setupTouch() {
+  const touch = {
+    startX: 0,
+    startY: 0,
+    endX: 0,
+    endY: 0,
+  };
+  addEventListener("touchstart", (event) => {
+    const [{ pageX, pageY }] = event.changedTouches;
+    touch.startX = pageX;
+    touch.startY = pageY;
+  }, { once: true });
+  addEventListener("touchend", (event) => {
+    if (event.path.findIndex(el => el.id === "game-board") < 0) {
+      return handleInput("", setupTouch);
+    }
+    const [{ pageX, pageY }] = event.changedTouches;
+    touch.endX = pageX;
+    touch.endY = pageY;
+    detectMovement(touch)
+  }, { once: true });
+}
+
+function detectMovement({ startX, startY, endX, endY }) {
+  let key = "";
+  const SENSIBILITY = 5;
+  const deltaX = startX - endX;
+  const deltaY = startY - endY;
+  const isHorizontal = Math.abs(deltaX) > Math.abs(deltaY);
+  if (Math.abs(deltaX) < SENSIBILITY || Math.abs(deltaY) < SENSIBILITY) {
+    return handleInput("", setupTouch);
+  }
+  if (isHorizontal) {
+    key = deltaX > 0 ? "ArrowLeft" : "ArrowRight";
+  } else {
+    key = deltaY > 0 ? "ArrowUp" : "ArrowDown";
+  }
+  handleInput(key, setupTouch);
+}
+
+function handleInput(key, cb) {
+  const obj = KEY_MAPPER[key];
+  if (!obj) return cb();
+  if (!obj.canMove()) return cb();
+  obj.moveTo();
+  updateGame(cells);
+  generateRandomTile(gameBoard, cells);
+  if (!hasAnyMove()) return gameOver();
+  cb();
+}
+
 function setupInput() {
-  addEventListener("keydown", handleInput);
+  addEventListener("keydown", (e) => handleInput(e.key, setupInput), { once: true });
 }
 
 function hasAnyMove() {
@@ -56,17 +108,6 @@ function gameOver() {
     alert("Game Over!");
     startGame();
   }, 500);
-}
-
-function handleInput({ key }) {
-  const obj = KEY_MAPPER[key];
-  if (!obj) return setupInput();
-  if (!obj.canMove()) return setupInput();
-  obj.moveTo();
-  updateGame(cells);
-  generateRandomTile(gameBoard, cells);
-  if (!hasAnyMove()) return gameOver();
-  setupInput();
 }
 
 function generateRandomTile(gameBoard, cells) {
