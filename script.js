@@ -55,6 +55,7 @@ function setupTouch() {
   gameBoard.addEventListener(
     "touchstart",
     (event) => {
+      event.preventDefault();
       const [{ pageX, pageY }] = event.changedTouches;
       touch.startX = pageX;
       touch.startY = pageY;
@@ -62,9 +63,14 @@ function setupTouch() {
     { once: true }
   );
 
+  gameBoard.addEventListener("touchmove", (event) => {
+    event.preventDefault();
+  });
+
   gameBoard.addEventListener(
     "touchend",
     (event) => {
+      event.preventDefault();
       const [{ pageX, pageY }] = event.changedTouches;
       touch.endX = pageX;
       touch.endY = pageY;
