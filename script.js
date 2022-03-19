@@ -142,7 +142,7 @@ function updateGame(cells) {
   }
 }
 
-function createTile(gameBoard, cell, value = Math.random() > 0.8 ? 2 : 4) {
+function createTile(gameBoard, cell, value = Math.random() > 0.2 ? 2 : 4) {
   const element = document.createElement("div");
   element.classList.add("tile");
   gameBoard.append(element);
